@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import T from 'prop-types';
+
+import styles from './Phonebook.module.css';
 import inputId from './inputId';
 
 class Phonebook extends Component {
@@ -37,8 +39,8 @@ class Phonebook extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor={inputId.name}>
+      <form onSubmit={this.handleSubmit} className={styles.form}>
+        <label htmlFor={inputId.name} className={styles.label}>
           Name
           <input
             type="text"
@@ -46,10 +48,11 @@ class Phonebook extends Component {
             placeholder="Enter contact name..."
             id={inputId.name}
             onChange={this.handleChange}
+            className={styles.input}
           />
         </label>
         <br />
-        <label htmlFor={inputId.number}>
+        <label htmlFor={inputId.number} className={styles.label}>
           Number
           <input
             type="text"
@@ -57,11 +60,14 @@ class Phonebook extends Component {
             placeholder="Enter contact number..."
             id={inputId.number}
             onChange={this.handleChange}
+            className={styles.input}
           />
         </label>
         <br />
 
-        <button type="submit">Add contact</button>
+        <button type="submit" className={styles.btn}>
+          Add contact
+        </button>
       </form>
     );
   }

@@ -1,16 +1,22 @@
 import React from 'react';
 import T from 'prop-types';
 import { v1 as uuidv1 } from 'uuid';
+import styles from './ContactFilter.module.css';
 
 const filterInputId = uuidv1();
 
 const ContactFilter = ({ onChangeFilter }) => (
-  <article>
+  <form className={styles.form}>
     <label htmlFor={filterInputId}>
       Find contacts by name
-      <input type="text" id={filterInputId} onChange={onChangeFilter} />
+      <input
+        type="text"
+        id={filterInputId}
+        onChange={onChangeFilter}
+        className={styles.input}
+      />
     </label>
-  </article>
+  </form>
 );
 
 ContactFilter.propTypes = {

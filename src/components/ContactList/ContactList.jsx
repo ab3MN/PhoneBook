@@ -1,9 +1,10 @@
 import React from 'react';
 import T from 'prop-types';
 import Contact from '../Contact/Contact';
+import styles from './ContactList.module.css';
 
 const ContactList = ({ items, onDelete }) => (
-  <ul>
+  <ul className={styles.contact_list}>
     {items.map(item => (
       <li key={item.id}>
         <Contact
