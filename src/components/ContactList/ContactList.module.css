@@ -1,8 +1,9 @@
 .contact_list {
-  width: 340px;
+  width: 960px;
   display: flex;
   flex-direction: column;
-  padding: 0px 20px 20px;
+  margin: 0 auto;
+  margin-bottom: 340px;
 }
 
 li {

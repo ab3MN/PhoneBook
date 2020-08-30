@@ -7,7 +7,7 @@ const filterInputId = uuidv1();
 
 const ContactFilter = ({ onChangeFilter }) => (
   <form className={styles.form}>
-    <label htmlFor={filterInputId}>
+    <label htmlFor={filterInputId} className={styles.label}>
       Find contacts by name
       <input
         type="text"

@@ -1,13 +1,14 @@
 import React from 'react';
 import T from 'prop-types';
 import styles from './Contact.module.css';
+import formatNumber from '../../helpers/formatNumber';
 
 const Contact = ({ name, number, onDelete }) => (
   <div className={styles.contact}>
     <p className={styles.name}>{name}</p>
-    <p className={styles.number}>{number}</p>
+    <p className={styles.number}>{formatNumber(number)}</p>
     <button type="button" onClick={onDelete} className={styles.btn}>
-      Delete
+      &#10006;
     </button>
   </div>
 );

@@ -1,8 +1,8 @@
 import { v1 as uuidv1 } from 'uuid';
 
-const inputId = {
+const inputPhoneId = {
   name: uuidv1(),
   number: uuidv1(),
 };
 
-export default inputId;
+export default inputPhoneId;

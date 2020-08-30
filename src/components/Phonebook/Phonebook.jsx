@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import T from 'prop-types';
 
 import styles from './Phonebook.module.css';
-import inputId from './inputId';
+import inputPhoneId from '../../helpers/inputPhoneId';
 
 class Phonebook extends Component {
   state = {
@@ -40,25 +40,26 @@ class Phonebook extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit} className={styles.form}>
-        <label htmlFor={inputId.name} className={styles.label}>
+        <label htmlFor={inputPhoneId.name} className={styles.label}>
           Name
           <input
             type="text"
             name="name"
             placeholder="Enter contact name..."
-            id={inputId.name}
+            mask="+99(999)999-99-99"
+            id={inputPhoneId.name}
             onChange={this.handleChange}
             className={styles.input}
           />
         </label>
         <br />
-        <label htmlFor={inputId.number} className={styles.label}>
+        <label htmlFor={inputPhoneId.number} className={styles.label}>
           Number
           <input
             type="text"
             name="number"
             placeholder="Enter contact number..."
-            id={inputId.number}
+            id={inputPhoneId.number}
             onChange={this.handleChange}
             className={styles.input}
           />

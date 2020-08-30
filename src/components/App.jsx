@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
 import { v1 as uuidv1 } from 'uuid';
-
-import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css';
+import { CSSTransition } from 'react-transition-group';
 
 import ContactList from './ContactList/ContactList';
 import Phonebook from './Phonebook/Phonebook';
 import ContactFilter from './ContactFilter/ContactFilter';
-import filterContacts from './ContactFilter/filter';
+import contactsFilter from '../helpers/contactsFilter';
+import Notification from './Notification/Notification';
 
-const notyf = new Notyf();
+import styles from './App.module.css';
+import slideHeader from '../transitions/slideHeader.module.css';
+import slideAlert from '../transitions/slideAlert.module.css';
 
 export default class App extends Component {
   state = {
     contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: 'id-1', name: 'Rosie Simpson', number: '0444591256' },
+      { id: 'id-2', name: 'Hermione Kline', number: '0444438912' },
+      { id: 'id-3', name: 'Eden Clements', number: '0446451779' },
+      { id: 'id-4', name: 'Annie Copeland', number: '0442279126' },
     ],
     filter: '',
+    isVisible: false,
+    message: '',
+    color: '',
   };
 
   componentDidMount() {
@@ -41,19 +45,35 @@ export default class App extends Component {
     }
   }
 
+  updateMessage = (message, color) => {
+    this.setState({
+      isVisible: true,
+      message,
+      color,
+    });
+    setTimeout(() => {
+      this.setState({
+        isVisible: false,
+        message: '',
+      });
+    }, 1000);
+  };
+
   addContact = contact => {
     const { name, number } = contact;
     const { contacts } = this.state;
 
-    if (!name) {
-      notyf.error('Enter name');
+    if (!name || !number) {
+      this.updateMessage('Fill in all the fields', '#ffbf00');
+    } else if (number.length !== 10) {
+      this.updateMessage('The number must contain 10 digits', '#ffbf00');
     } else if (!parseFloat(number)) {
-      notyf.error('Enter number');
+      this.updateMessage('No number entered', '#ffbf00');
     } else {
       const sameContact = contacts.find(el => el.name === name);
 
       if (sameContact) {
-        notyf.error(`${name} contact is allready exist`);
+        this.updateMessage(`${name} contact is allready exist`, '#f1392d');
       } else {
         const contactToAdd = {
           ...contact,
@@ -62,7 +82,7 @@ export default class App extends Component {
         this.setState(state => ({
           contacts: [...state.contacts, contactToAdd],
         }));
-        notyf.success(`${name}`);
+        this.updateMessage(`${name} `, '#7fff00');
       }
     }
   };
@@ -78,17 +98,27 @@ export default class App extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.state;
-    const FiltredContacts = filterContacts(contacts, filter);
+    const { contacts, filter, isVisible, message, color } = this.state;
+    const FiltredContacts = contactsFilter(contacts, filter);
 
     return (
       <div>
-        <h1>Phonebook</h1>
+        <CSSTransition in timeout={500} classNames={slideHeader} appear>
+          <h1 className={styles.header}>Phonebook</h1>
+        </CSSTransition>
         <Phonebook onAddContact={this.addContact} />
 
-        <h2>Contacts</h2>
         <ContactFilter onChangeFilter={this.changeFilter} />
         <ContactList items={FiltredContacts} onDelete={this.deleteContact} />
+
+        <CSSTransition
+          in={isVisible}
+          timeout={250}
+          classNames={slideAlert}
+          unmountOnExit
+        >
+          <Notification message={message} color={color} />
+        </CSSTransition>
       </div>
     );
   }
